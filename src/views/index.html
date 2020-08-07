@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Socket.io test</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .response {
+            height: 350px;
+            max-height: 350px;
+            overflow-y: scroll;
+        }
+        .response > p {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <div class="row">
+            <div class="col-12 my-4">
+                <h1>Socket.io test</h1>
+            </div>
+            <div class="col-12 my-2">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="input-head">💬</span>
+                    </div>
+                    <input
+                            type="text"
+                            id="request"
+                            class="form-control"
+                            placeholder="Input here"
+                            aria-label="Input here"
+                            aria-describedby="input-head"
+                    >
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body response" id="response"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript">
+    const requestField = document.getElementById('request');
+    const responseField = document.getElementById('response');
+    window.onload = () => {
+        requestField.onkeypress = (e) => {
+            if (e.keyCode === 13) {
+                socket.emit('chat', requestField.value);
+            }
+        };
+
+        const socket = io();
+
+        socket.on('connect', (message) => {
+            console.log(message);
+        });
+
+        socket.on('error', error => {
+            console.log(error);
+        });
+
+        socket.on('recieve', message => {
+            responseField.innerHTML += `<p>${message}</p>`;
+            responseField.scrollTop = responseField.scrollHeight;
+            requestField.value = '';
+        });
+    };
+</script>
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/socket.io.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+</html>
