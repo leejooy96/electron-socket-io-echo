@@ -2,10 +2,11 @@
   "name": "electron-socket-simple-input",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "dev": "npm run start",
-    "start": "electron src/main.js"
+    "start": "electron src/main.js",
+    "build": "electron-builder --win nsis:ia32 portable"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,34 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "electron": "^9.1.2"
+    "electron": "^9.1.2",
+    "electron-builder": "^22.8.0"
+  },
+  "build": {
+    "productName": "electronSocketTest",
+    "appId": "com.test.electronsocket",
+    "asar": true,
+    "protocols": {
+      "name": "electronSocketTest",
+      "schemes": [
+        "electronSocketTest"
+      ]
+    },
+    "win": {
+      "target": [
+        "zip",
+        "nsis"
+      ],
+      "icon": "./resources/installer/Icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "buildResources": "./resources/installer/",
+      "output": "./dist/",
+      "app": "."
+    }
   }
 }

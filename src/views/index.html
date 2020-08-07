@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
         .response {
-            height: 350px;
-            max-height: 350px;
+            height: 300px;
+            max-height: 300px;
             overflow-y: scroll;
         }
         .response > p {
@@ -49,6 +49,7 @@
 <script type="text/javascript">
     const requestField = document.getElementById('request');
     const responseField = document.getElementById('response');
+
     window.onload = () => {
         requestField.onkeypress = (e) => {
             if (e.keyCode === 13) {
@@ -59,13 +60,13 @@
         const socket = io();
 
         socket.on('connect', (message) => {
-            console.log(message);
         });
 
         socket.on('error', error => {
             console.log(error);
         });
 
+        // When client recieved new message from anyone
         socket.on('recieve', message => {
             responseField.innerHTML += `<p>${message}</p>`;
             responseField.scrollTop = responseField.scrollHeight;
